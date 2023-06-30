@@ -8,6 +8,9 @@
         <PackageProjectUrl>https://github.com/David-c0degeek/C0deGeek.Result</PackageProjectUrl>
         <PackageIcon>results-icon-png-7.jpeg</PackageIcon>
         <RepositoryUrl>https://github.com/David-c0degeek/C0deGeek.Result</RepositoryUrl>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageReadmeFile>..\README.md</PackageReadmeFile>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,7 +19,9 @@
         <PackagePath></PackagePath>
       </None>
     </ItemGroup>
-
-
+    
+    <ItemGroup>
+        <None Include="..\README.md" Pack="true" PackagePath="" />
+    </ItemGroup>
 
 </Project>
