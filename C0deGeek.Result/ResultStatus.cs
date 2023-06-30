@@ -1,8 +1,9 @@
-﻿namespace C0deGeek.Result;
-
-public enum ResultStatus
+﻿namespace C0deGeek.Result
 {
-    Success,
-    Failure,
-    NotFound
+    public enum ResultStatus
+    {
+        Success,
+        Failure,
+        NotFound
+    }
 }
