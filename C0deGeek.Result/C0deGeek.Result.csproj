@@ -11,7 +11,7 @@
         <Company>C0deGeek</Company>
         <Description>A comprehensive Result type implementation for C# applications</Description>
         <Copyright>Copyright © C0deGeek $([System.DateTime]::Now.Year)</Copyright>
-        <PackageIcon>results-icon-png-7.jpeg</PackageIcon>
+        <PackageIcon>C0deGeek.Result.Icon.jpg</PackageIcon>
 
         <!-- Package Configuration -->
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -31,7 +31,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="results-icon-png-7.jpeg" Pack="true" PackagePath="\" />
+        <None Include="C0deGeek.Result.Icon.jpg" Pack="true" PackagePath="\" />
         <None Include="..\README.md" Pack="true" PackagePath="\" />
         <None Include="..\LICENSE.MD" Pack="true" PackagePath="\" />
     </ItemGroup>
