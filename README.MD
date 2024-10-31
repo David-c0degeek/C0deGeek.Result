@@ -47,4 +47,13 @@ Add a reference to the C0deGeek.Result NuGet package to your project.
 
 ## Contributing
 
-Contributions are welcome. Please open an issue or submit a pull request on GitHub.
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.MD) file for details.
