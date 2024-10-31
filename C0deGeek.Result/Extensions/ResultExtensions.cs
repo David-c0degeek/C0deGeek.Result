@@ -109,4 +109,68 @@ public static class ResultExtensions
             ? Result.Fail<TResult>(initialResult.Error)
             : nextResult(initialResult.Value);
     }
+
+
+    /// <summary>
+    /// Executes an action only if the result is successful.
+    /// </summary>
+    /// <param name="result">The result to check.</param>
+    /// <param name="action">The action to execute if successful.</param>
+    /// <returns>The original result.</returns>
+    public static Result Tap(this Result result, Action action)
+    {
+        if (result.IsSuccess())
+        {
+            action();
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Executes an action with the value if the result is successful.
+    /// </summary>
+    /// <typeparam name="T">The type of the value in the result.</typeparam>
+    /// <param name="result">The result containing the value.</param>
+    /// <param name="action">The action to execute with the value if successful.</param>
+    /// <returns>The original result.</returns>
+    public static Result<T> Tap<T>(this Result<T> result, Action<T> action) where T : notnull
+    {
+        if (result.IsSuccess())
+        {
+            action(result.Value);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Maps a Result{T} to a Result{TNew} using a mapping function.
+    /// </summary>
+    /// <typeparam name="T">The source type of the result value.</typeparam>
+    /// <typeparam name="TNew">The target type to map the result value to.</typeparam>
+    /// <param name="result">The result to map.</param>
+    /// <param name="mapper">The function to map the value from T to TNew.</param>
+    /// <returns>A new result containing the mapped value if successful, or the original error if failed.</returns>
+    public static Result<TNew> Map<T, TNew>(this Result<T> result, Func<T, TNew> mapper)
+        where T : notnull
+        where TNew : notnull
+    {
+        return result.IsSuccess()
+            ? Result.Ok(mapper(result.Value))
+            : Result.Fail<TNew>(result.Error);
+    }
+
+    /// <summary>
+    /// Adds context information to the result.
+    /// </summary>
+    /// <param name="result">The result to add context to.</param>
+    /// <param name="key">The key for the context information.</param>
+    /// <param name="value">The context value to add.</param>
+    /// <returns>The original result with added context.</returns>
+    public static Result WithContext(this Result result, string key, object value)
+    {
+        result.Metadata.Context[key] = value;
+        return result;
+    }
 }

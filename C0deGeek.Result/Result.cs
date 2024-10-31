@@ -16,6 +16,11 @@ public class Result
     /// Gets the error message if the operation failed.
     /// </summary>
     public string Error { get; }
+    
+    /// <summary>
+    /// Gets metadata about the operation result.
+    /// </summary>
+    public ResultMetadata Metadata { get; } = new();
 
     /// <summary>
     /// Initializes a new instance of the Result class.
@@ -38,7 +43,49 @@ public class Result
                 break;
         }
     }
+    
+    /// <summary>
+    /// Creates a success result with warnings.
+    /// </summary>
+    public static Result OkWithWarnings(params string[] warnings)
+    {
+        var result = Ok();
+        result.Metadata.Warnings.AddRange(warnings);
+        return result;
+    }
+    
+    /// <summary>
+    /// Creates a result from multiple results, succeeding only if all succeed.
+    /// </summary>
+    public static Result Combine(params Result[] results)
+    {
+        var failures = results.Where(r => r.IsFailure()).ToList();
+        if (failures.Count != 0)
+        {
+            return Fail(string.Join(Environment.NewLine, failures.Select(f => f.Error)));
+        }
 
+        var warnings = results.SelectMany(r => r.Metadata.Warnings).ToList();
+        if (warnings.Count != 0)
+        {
+            return OkWithWarnings(warnings.ToArray());
+        }
+
+        return Ok();
+    }
+
+    /// <summary>
+    /// Ensures the result is successful or throws with a custom exception factory.
+    /// </summary>
+    public Result EnsureSuccess(Func<string, Exception> exceptionFactory)
+    {
+        if (IsFailure())
+        {
+            throw exceptionFactory(Error);
+        }
+        return this;
+    }
+    
     /// <summary>
     /// Creates a failure result with the specified error message.
     /// </summary>
@@ -60,7 +107,7 @@ public class Result
     /// </summary>
     /// <param name="treatNotFoundAsFailure">If true, treats NotFound status as a failure.</param>
     /// <returns>True if the operation was successful; otherwise, false.</returns>
-    protected virtual bool IsSuccess(bool treatNotFoundAsFailure = true)
+    public virtual bool IsSuccess(bool treatNotFoundAsFailure = true)
     {
         return treatNotFoundAsFailure ? Status != ResultStatus.NotFound : Status == ResultStatus.Success;
     }
@@ -143,7 +190,7 @@ public class Result<T> : Result where T : notnull
     /// <param name="treatNotFoundAsFailure">If true, treats NotFound status as a failure.</param>
     /// <returns>True if the operation was successful and the value is non-null; otherwise, false.</returns>
     [MemberNotNullWhen(true, nameof(Value))]
-    protected override bool IsSuccess(bool treatNotFoundAsFailure = true)
+    public override bool IsSuccess(bool treatNotFoundAsFailure = true)
     {
         return base.IsSuccess(treatNotFoundAsFailure);
     }
