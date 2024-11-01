@@ -30,7 +30,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="C0deGeek.Result.Icon.jpg" Pack="true" PackagePath="\" />
+        <None Include="..\C0deGeek.Result.Icon.jpg" Pack="true" PackagePath="\" />
         <None Include="..\README.md" Pack="true" PackagePath="\" />
         <None Include="..\LICENSE.MD" Pack="true" PackagePath="\" />
     </ItemGroup>
