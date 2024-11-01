@@ -2,7 +2,7 @@ name: Publish C0deGeek.Result
 on:
   push:
     tags:
-      - 'result/v*'
+      - 'v*'
 jobs:
   publish:
     runs-on: ubuntu-latest
